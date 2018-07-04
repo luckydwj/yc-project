@@ -1,26 +1,21 @@
+/**
+ *  Created by daiwenjuan on 2018/7/4 22:19.
+ */
 require('babel-polyfill')
 require('source-map-support').install()
-require('babel-register')({
-  presets: ['es2015', 'react', 'stage-0'],
-  plugins: ['add-module-exports']
-})
+require('babel-register')
+const lessParser = require('postcss-less').parse
 require('css-modules-require-hook')({
-  extensions: ['.scss'],
-  preprocessCss: (data, filename) =>
-    require('node-sass').renderSync({
-      data,
-      file: filename
-    }).css,
-  camelCase: true,
-  generateScopedName: '[name]__[local]__[hash:base64:8]'
+  extensions: ['.less'],
+  processorOpts: { parser: lessParser },
+  generateScopedName: '[local]__[hash:base64:5]'
 })
 require('asset-require-hook')({
   name: '/[hash].[ext]',
   extensions: ['jpg', 'png', 'gif', 'webp'],
   limit: 8000
 })
-
-const app = require('./app.js'),
+const app = require('./app'),
   convert = require('koa-convert'),
   webpack = require('webpack'),
   fs = require('fs'),
@@ -28,13 +23,11 @@ const app = require('./app.js'),
   devMiddleware = require('koa-webpack-dev-middleware'),
   hotMiddleware = require('koa-webpack-hot-middleware'),
   views = require('koa-views'),
-  router = require('./routes'),
-  clientRoute = require('./middlewares/clientRoute'),
+  router = require('./routes')
+clientRoute = require('./middlewares/clientRoute'),
   config = require('../build/webpack.dev.config'),
   port = process.env.port || 3000,
   compiler = webpack(config)
-
-// Webpack hook event to write html file into `/views/dev` from `/views/tpl` due to server render
 compiler.plugin('emit', (compilation, callback) => {
   const assets = compilation.assets
   let file, data
@@ -48,8 +41,8 @@ compiler.plugin('emit', (compilation, callback) => {
   })
   callback()
 })
-
-app.use(views(path.resolve(__dirname, '../views/dev'), {map: {html: 'ejs'}}))
+//这样就可以了，你可以在html文件中使用ejs语法<% %>了
+app.use(views(path.resolve(__dirname, '../views/dev'), { map: { html: 'ejs' } }))
 app.use(clientRoute)
 app.use(router.routes())
 app.use(router.allowedMethods())
