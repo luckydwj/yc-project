@@ -2,10 +2,9 @@
  *  Created by daiwenjuan on 2018/7/4 22:25.
  */
 import { combineReducers } from 'redux'
-import singleton from './Singleton'
+import { getReducers } from '../chief'
 
-let plugin = singleton.getInstance().getPlugins()
-import userInfo from '../home/reducer'
+let reducers = getReducers()
 
-const rootReducer = combineReducers({userInfo})
+const rootReducer = combineReducers({...reducers})
 export default rootReducer

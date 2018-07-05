@@ -3,15 +3,13 @@
  */
 import key from './key'
 
-function userInfo (state = null, action) {
-  switch (action.type) {
-    case key.TEST:
-      return {...state, text: 'sdfdsf'}
-    default:
-      return state
+let map = {}
+export default function (state = {}, action) {
+  if (!map[action.type] || typeof map[action.type] !== 'function') {
+    return state
   }
+  return map[action.type](state, action)
 }
-
-export default {
-  userInfo
+map[key.TEST] = function (state, action) {
+  return {...state, text: action.payload}
 }
