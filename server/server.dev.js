@@ -7,7 +7,7 @@ require('babel-register')
 const lessParser = require('postcss-less').parse
 require('css-modules-require-hook')({
   extensions: ['.less'],
-  processorOpts: { parser: lessParser },
+  processorOpts: {parser: lessParser},
   generateScopedName: '[local]__[hash:base64:5]'
 })
 require('asset-require-hook')({
@@ -42,7 +42,7 @@ compiler.plugin('emit', (compilation, callback) => {
   callback()
 })
 //这样就可以了，你可以在html文件中使用ejs语法<% %>了
-app.use(views(path.resolve(__dirname, '../views/dev'), { map: { html: 'ejs' } }))
+app.use(views(path.resolve(__dirname, '../views/dev'), {map: {html: 'ejs'}}))
 app.use(clientRoute)
 app.use(router.routes())
 app.use(router.allowedMethods())

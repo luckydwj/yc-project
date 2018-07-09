@@ -3,28 +3,29 @@
  */
 import React, { Children, Component, cloneElement } from 'react'
 import Navbar from './Navbar'
-import { Layout } from 'antd'
-
-const {Header, Content, Footer} = Layout
+require('../styles/app.less')
+import styles from './Common.module.less'
 
 class Common extends Component {
 
   render () {
     const {children, ...props} = this.props
     return (
-      <Layout className="layout">
-        <Header>
-          <Navbar/>
-        </Header>
-        <Content style={{padding: '0 50px'}}>
-          {Children.map(children, child =>
-            cloneElement(child, {...props})
-          )}
-        </Content>
-        <Footer style={{textAlign: 'center'}}>
-          雨辰科技有限公司
-        </Footer>
-      </Layout> )
+      <div className={styles['common-wrapper']}>
+        <div className='common-content'>
+          <div className='header'>
+            <Navbar/>
+          </div>
+          <div className='content'>
+            {Children.map(children, child =>
+              cloneElement(child, {...props})
+            )}
+          </div>
+          <div className='footer'>
+            雨辰科技有限公司
+          </div>
+        </div>
+      </div> )
   }
 }
 
