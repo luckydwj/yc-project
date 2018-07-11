@@ -10,9 +10,12 @@ require('css-modules-require-hook')({
   processorOpts: {parser: lessParser},
   generateScopedName: '[local]__[hash:base64:5]'
 })
+require('css-modules-require-hook')({
+  extensions: ['.css'],
+})
 require('asset-require-hook')({
   name: '/[hash].[ext]',
-  extensions: ['jpg', 'png', 'gif', 'webp'],
+  extensions: ['jpg', 'png', 'gif', 'webp', 'woff', 'woff2', 'eot', 'ttf', 'otf'],
   limit: 8000
 })
 const app = require('./app'),
